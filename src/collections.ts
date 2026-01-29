@@ -105,10 +105,22 @@ const testCollection = new Collection({
 // Result: NOK 
 // Here I would expect the frontmatter definitions/types from `TestDirectory1` and `TestDirectory2`
 // but if we check the `testCollection` type, 
-// it seems the wrong type is already used/returned while initializing the `Collection` 
+// it seems the wrong type is already used/returned while initializing the `Collection`
+// Also is the `Record<string, unknown>` the expected type for `getFrontmatter`?
 
 const collectionFrontmatter: Frontmatter | undefined
+const collectionFrontmatterAlt1: MDXModuleExport<Frontmatter | undefined>
+const collectionFrontmatterAlt2: Record<string, unknown> | undefined
+
 */
 const collectionFrontmatter = await (
   await testCollection.getFile('test', 'mdx')
 ).getExportValue('frontmatter');
+
+const collectionFrontmatterAlt1 = await (
+  await testCollection.getFile('test', 'mdx')
+).getExport('frontmatter');
+
+const collectionFrontmatterAlt2 = await (
+  await testCollection.getFile('test', 'mdx')
+).getFrontmatter()
